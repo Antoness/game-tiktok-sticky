@@ -1,0 +1,210 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&family=Exo+2:wght@400;700;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Base Reset ─── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+}
+
+/* ─── Game Container — Fixed 1080×1920 ─── */
+.game-container {
+  position: relative;
+  width: 1080px;
+  height: 1920px;
+  overflow: hidden;
+  font-family: 'Rajdhani', sans-serif;
+  background: #000;
+}
+
+/* ─── Arena Background ─── */
+.arena-bg {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse 80% 60% at 50% 40%, rgba(0, 60, 150, 0.6) 0%, transparent 70%),
+    radial-gradient(ellipse 100% 80% at 50% 100%, rgba(0, 20, 80, 0.9) 0%, transparent 60%),
+    linear-gradient(180deg, #050D1A 0%, #0A1530 30%, #0D1E45 60%, #06101F 100%);
+}
+
+/* ─── Scan Lines Effect ─── */
+.arena-scanlines::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(0, 180, 255, 0.02) 3px,
+    rgba(0, 180, 255, 0.02) 4px
+  );
+  pointer-events: none;
+  z-index: 100;
+}
+
+/* ─── Glow Text ─── */
+.glow-gold {
+  text-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700, 0 0 40px #FF8C00;
+}
+.glow-blue {
+  text-shadow: 0 0 10px #00D4FF, 0 0 20px #00D4FF, 0 0 40px #0080FF;
+}
+.glow-red {
+  text-shadow: 0 0 10px #FF4444, 0 0 20px #FF0000, 0 0 40px #CC0000;
+}
+.glow-green {
+  text-shadow: 0 0 10px #00FF88, 0 0 20px #00CC66;
+}
+
+/* ─── HP Bar ─── */
+.hp-bar-track {
+  background: rgba(0,0,0,0.6);
+  border: 2px solid rgba(255,255,255,0.3);
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.hp-bar-fill-champion {
+  background: linear-gradient(90deg, #FFD700, #FFA500);
+  box-shadow: 0 0 8px #FFD700;
+  transition: width 0.3s ease;
+}
+
+.hp-bar-fill-challenger {
+  background: linear-gradient(90deg, #00FF88, #00CC66);
+  box-shadow: 0 0 8px #00FF88;
+  transition: width 0.3s ease;
+}
+
+/* ─── Queue Item ─── */
+.queue-item {
+  background: rgba(0,20,60,0.8);
+  border: 1px solid rgba(0,180,255,0.3);
+  backdrop-filter: blur(4px);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+.queue-item:hover {
+  border-color: rgba(255,215,0,0.5);
+  box-shadow: 0 0 12px rgba(255,215,0,0.3);
+}
+
+/* ─── Panel Glass ─── */
+.glass-panel {
+  background: rgba(0,10,40,0.75);
+  border: 1px solid rgba(0,180,255,0.25);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+}
+
+/* ─── Damage Popup ─── */
+@keyframes floatUp {
+  0%   { opacity: 1; transform: translateY(0) scale(1); }
+  60%  { opacity: 1; transform: translateY(-60px) scale(1.2); }
+  100% { opacity: 0; transform: translateY(-100px) scale(0.8); }
+}
+.damage-popup {
+  animation: floatUp 1s ease-out forwards;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 900;
+  color: #FF3333;
+  text-shadow: 0 0 10px #FF0000, 2px 2px 0 #000;
+  pointer-events: none;
+  user-select: none;
+}
+.heal-popup {
+  animation: floatUp 1s ease-out forwards;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 900;
+  color: #00FF88;
+  text-shadow: 0 0 10px #00FF00, 2px 2px 0 #000;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ─── KO Effect ─── */
+@keyframes koFly {
+  0%   { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
+  30%  { transform: translateY(-150px) rotate(180deg) scale(1.2); opacity: 0.9; }
+  100% { transform: translateY(-500px) rotate(720deg) scale(0.3); opacity: 0; }
+}
+.ko-animation {
+  animation: koFly 1s ease-in forwards;
+}
+
+/* ─── Gift Aura ─── */
+@keyframes giftAura {
+  0%   { box-shadow: 0 0 0 0 rgba(255,215,0,0.8); }
+  50%  { box-shadow: 0 0 0 30px rgba(255,215,0,0); }
+  100% { box-shadow: 0 0 0 0 rgba(255,215,0,0); }
+}
+.gift-aura-pulse {
+  animation: giftAura 0.8s ease-out;
+}
+
+/* ─── Stickman ─── */
+@keyframes stickmanIdle {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50%       { transform: translateY(-8px) rotate(1deg); }
+}
+@keyframes stickmanPunch {
+  0%   { transform: translateX(0) scaleX(1); }
+  30%  { transform: translateX(30px) scaleX(1.1); }
+  60%  { transform: translateX(50px) scaleX(1.05); }
+  100% { transform: translateX(0) scaleX(1); }
+}
+@keyframes stickmanHit {
+  0%   { transform: translateX(0); filter: brightness(1); }
+  20%  { transform: translateX(-20px); filter: brightness(3) saturate(0); }
+  40%  { transform: translateX(15px); filter: brightness(2); }
+  100% { transform: translateX(0); filter: brightness(1); }
+}
+
+/* ─── Win Streak ─── */
+@keyframes streakBounce {
+  0%   { transform: scale(1); }
+  30%  { transform: scale(1.4); }
+  60%  { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+.streak-bounce { animation: streakBounce 0.5s ease-out; }
+
+/* ─── Ring Glow Border ─── */
+@keyframes ringGlow {
+  0%, 100% { box-shadow: 0 0 20px rgba(0,180,255,0.3), inset 0 0 30px rgba(0,100,200,0.1); }
+  50%       { box-shadow: 0 0 50px rgba(0,180,255,0.6), inset 0 0 60px rgba(0,150,255,0.2); }
+}
+.ring-glow { animation: ringGlow 2s ease-in-out infinite; }
+
+/* ─── Stars KO ─── */
+@keyframes starSpin {
+  0%   { transform: rotate(0deg) translateX(40px) rotate(0deg); opacity: 1; }
+  100% { transform: rotate(360deg) translateX(40px) rotate(-360deg); opacity: 0; }
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); }
+::-webkit-scrollbar-thumb { background: rgba(0,180,255,0.4); border-radius: 2px; }
+
+/* ─── Responsive Scale ─── */
+.game-scaler {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+}
